@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/drom/bxr/issues"
   },
-  "main": "lib/index.js",
+  "main": "lib",
   "files": [
     "build/bxr.js",
     "lib"

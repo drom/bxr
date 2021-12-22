@@ -8,7 +8,7 @@ const expect = chai.expect;
 
 describe('basic', () => {
   it('bxr is function', () => {
-    expect(lib.bx).to.be('function');
+    expect(lib.bxr).to.be.a('function');
   });
 });
 
