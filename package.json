@@ -21,7 +21,9 @@
   "scripts": {
     "test": "eslint lib test && nyc -r=lcov -r=text mocha test",
     "unpkg": "browserify --standalone bxr lib/index.js > build/bxr.js",
-    "prepare": "npm run test && mkdir -p build && npm run unpkg"
+    "prepare": "npm run test && mkdir -p build && npm run unpkg",
+    "demo-build": "browserify src/demo.js > demo/app.js",
+    "demo-watch": "watchify src/demo.js -o demo/app.js -v"
   },
   "engines": {
     "node": ">=12"
@@ -34,7 +36,10 @@
     "coveralls": "^3.0.11",
     "eslint": "^8.4.1",
     "mocha": "^9.1.3",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "onml": "^2.1.0",
+    "watchify": "^4.0.0"
+
   },
   "eslintConfig": {
     "extends": "@drom/eslint-config/eslint4/node8",
