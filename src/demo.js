@@ -23,10 +23,9 @@ const testo = {
       },
       text: {
         fill: 'rgb(181, 255, 131)',
-        'font-family': '"Open Sans"',
-        'text-anchor': 'middle',
-        /* alignment-baseline: middle; */
-        'font-size': '16px'
+        fontFamily: '"Open Sans"',
+        textAnchor: 'middle',
+        fontSize: '16px'
       }
     }
   },
@@ -34,16 +33,15 @@ const testo = {
     body: body0,
     style: {
       rect: {
-        'stroke-width': '1px',
+        strokeWidth: '1px',
         stroke: '#fff',
         fill: 'none'
       },
       text: {
         fill: '#fff',
-        'font-family': '"Open Sans"',
-        'text-anchor': 'middle',
-        /* alignment-baseline: middle; */
-        'font-size': '16px'
+        fontFamily: '"Open Sans"',
+        textAnchor: 'middle',
+        fontSize: '16px'
       }
     }
   },
@@ -51,20 +49,38 @@ const testo = {
     body: body0,
     style: {
       rect: {
-        'stroke-width': '1px',
+        strokeWidth: '1px',
         stroke: '#000',
         fill: 'none'
       },
       text: {
         fill: '#000',
-        'font-family': '"Open Sans"',
-        'text-anchor': 'middle',
-        /* alignment-baseline: middle; */
-        'font-size': '16px'
+        fontFamily: '"Open Sans"',
+        textAnchor: 'middle',
+        fontSize: '16px'
       }
     }
-  }
-
+  },
+  t4: {
+    body: center(
+      top('foo'),
+      top('bar'),
+      top('buZzzzzzzz')
+    ),
+    style: {
+      rect: {
+        strokeWidth: '1px',
+        stroke: '#fff',
+        fill: 'none'
+      },
+      text: {
+        fill: '#fff',
+        fontFamily: '"Open Sans"',
+        textAnchor: 'middle',
+        fontSize: '16px'
+      }
+    }
+  },
 };
 
 global.DEMO = async div => {
@@ -73,9 +89,9 @@ global.DEMO = async div => {
     const valo = testo[key];
     const style = valo.style || {};
     const body = valo.body;
-    const ml = onml.gen.svg(body[1].w, body[1].h).concat([
+    const ml = onml.gen.svg(body[1].w + 1, body[1].h + 1).concat([
       ['style', bxr.obj2css(style, key)],
-      body
+      ['g', onml.tt(.5, .5), body]
     ]);
     const html = onml.stringify(ml);
     const span = document.createElement('span');
