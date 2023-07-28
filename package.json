@@ -1,6 +1,6 @@
 {
   "name": "bxr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Box layout engine",
   "author": "Aliaksei Chapyzhenka",
   "license": "MIT",
@@ -39,7 +39,6 @@
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "watchify": "^4.0.0"
-
   },
   "eslintConfig": {
     "extends": "@drom/eslint-config/eslint8/node12"
