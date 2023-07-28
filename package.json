@@ -32,20 +32,16 @@
     "onml": "^2.1.0"
   },
   "devDependencies": {
-    "@drom/eslint-config": "^0.10.0",
+    "@drom/eslint-config": "^0.12.0",
     "browserify": "^17.0.0",
-    "chai": "^4.1.2",
-    "coveralls": "^3.0.11",
-    "eslint": "^8.4.1",
-    "mocha": "^9.1.3",
+    "chai": "^4.3.7",
+    "eslint": "^8.46.0",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "watchify": "^4.0.0"
 
   },
   "eslintConfig": {
-    "extends": "@drom/eslint-config/eslint4/node8",
-    "parserOptions": {
-      "ecmaVersion": 2020
-    }
+    "extends": "@drom/eslint-config/eslint8/node12"
   }
 }
