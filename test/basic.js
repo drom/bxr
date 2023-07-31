@@ -13,7 +13,7 @@ describe('basic', () => {
     expect(lib.bxr).to.be.a('function');
   });
   it('can box', () => {
-    const texter = lib.texterer(openSans);
+    const texter = lib.texterer(openSans()(14));
     const {top, bottom, left, right, center, box} = lib.bxr({padding: 4, texter});
     const res = top(
       bottom(box(20, 40), box(20, 20), 'Bob who?', box(20, 30)),
@@ -39,7 +39,7 @@ describe('basic', () => {
           ],
           ['g', {transform: 'translate(52,24)'},
             ['g', {w: 74, h: 20},
-              ['text', {x: 37, y: 16}, 'Bob who?']
+              ['text', {x: 37, y: 10}, 'Bob who?']
             ]
           ],
           ['g', {transform: 'translate(130,14)'},
@@ -59,7 +59,7 @@ describe('basic', () => {
           ],
           ['g', {transform: 'translate(32.5,28)'},
             ['g', {w: 37, h: 20},
-              ['text', {x: 18, y: 16}, 'Hello']
+              ['text', {x: 18, y: 10}, 'Hello']
             ]
           ],
           ['g', {transform: 'translate(31,52)'},
@@ -69,7 +69,7 @@ describe('basic', () => {
           ],
           ['g', {transform: 'translate(4,96)'},
             ['g', {w: 94, h: 20},
-              ['text', {x: 47, y: 16}, 'Alice Copper']
+              ['text', {x: 47, y: 10}, 'Alice Copper']
             ]
           ],
           ['g', {transform: 'translate(41,120)'},
@@ -100,7 +100,7 @@ describe('basic', () => {
           ],
           ['g', {transform: 'translate(35,40)'},
             ['g', {w: 33, h: 20},
-              ['text', {x: 16, y: 16}, 'John']
+              ['text', {x: 16, y: 10}, 'John']
             ]
           ],
           ['g', {transform: 'translate(60,64)'},
@@ -110,7 +110,7 @@ describe('basic', () => {
           ],
           ['g', {transform: 'translate(16,132)'},
             ['g', {w: 52, h: 20},
-              ['text', {x: 26, y: 16}, 'Lennon']
+              ['text', {x: 26, y: 10}, 'Lennon']
             ]
           ],
           ['g', {transform: 'translate(4,156)'},
@@ -125,12 +125,12 @@ describe('basic', () => {
           ['rect', {width: 83, height: 256}],
           ['g', {transform: 'translate(4,4)'},
             ['g', {w: 31, h: 20},
-              ['text', {x: 15, y: 16}, 'Paul']
+              ['text', {x: 15, y: 10}, 'Paul']
             ]
           ],
           ['g', {transform: 'translate(4,28)'},
             ['g', {w: 75, h: 20},
-              ['text', {x: 37, y: 16}, 'McCartney']
+              ['text', {x: 37, y: 10}, 'McCartney']
             ]
           ],
           ['g', {transform: 'translate(4,52)'},

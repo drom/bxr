@@ -4,7 +4,7 @@ const onml = require('onml');
 const bxr = require('../lib');
 const openSans = require('../lib/open-sans.js');
 
-const texter = bxr.texterer(openSans);
+const texter = bxr.texterer(openSans()(14));
 const {top, bottom, left, right, center, box} = bxr.bxr({padding: 4, texter});
 
 const body0 = top(
@@ -25,7 +25,8 @@ const testo = {
         fill: 'rgb(181, 255, 131)',
         fontFamily: '"Open Sans"',
         textAnchor: 'middle',
-        fontSize: '16px'
+        alignmentBaseline: 'middle',
+        fontSize: '14px'
       }
     }
   },
@@ -41,7 +42,8 @@ const testo = {
         fill: '#fff',
         fontFamily: '"Open Sans"',
         textAnchor: 'middle',
-        fontSize: '16px'
+        alignmentBaseline: 'middle',
+        fontSize: '14px'
       }
     }
   },
@@ -57,7 +59,8 @@ const testo = {
         fill: '#000',
         fontFamily: '"Open Sans"',
         textAnchor: 'middle',
-        fontSize: '16px'
+        alignmentBaseline: 'middle',
+        fontSize: '14px'
       }
     }
   },
@@ -77,7 +80,8 @@ const testo = {
         fill: '#fff',
         fontFamily: '"Open Sans"',
         textAnchor: 'middle',
-        fontSize: '16px'
+        alignmentBaseline: 'middle',
+        fontSize: '14px'
       }
     }
   },
