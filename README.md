@@ -6,9 +6,22 @@
 [![Windows](https://github.com/drom/bxr/actions/workflows/windows.yml/badge.svg)](https://github.com/drom/bxr/actions/workflows/windows.yml)
 [![Coverage Status](https://coveralls.io/repos/github/drom/bxr/badge.svg?branch=trunk)](https://coveralls.io/github/drom/bxr?branch=trunk)
 
+## Overview
 
+`bxr` is a Box Layout Engine with Back-propagation
 
-Box Layout Engine
+## Installation
 
-with Back-propagation
+```sh
+npm install bxr
+```
 
+## Usage
+
+```js
+const {bxr} = require('bxr');
+```
+
+## License
+
+[MIT](./LICENSE)
