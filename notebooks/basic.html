@@ -1,0 +1,88 @@
+<!doctype html>
+<notebook theme="air">
+  <title>bxr: basic</title>
+  <script>
+    import {wd} from './bxr.js';
+  </script>
+  <script type="text/markdown">
+    # Basic `bxr`
+
+    **bxr** is a Box Layout Engine with Back-propagation.
+
+    https://github.com/drom/bxr
+
+    It takes JsonML formated Array and returns SVG string.
+
+    ## Box packing
+
+    `bxr` has 6 main functions for box packing:
+
+    `left, center, right` - will pack elements vertically, aligning them accordingly.
+    `top, middle, bottom` - will pack horizontally.
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['left', 'Star', 'Lennon', 'McCartney', 'George'], config: {padding: 4, opacity: .1}})
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['center', 'Star', 'Lennon', 'McCartney', 'George'], config: {padding: 4, opacity: .1}})
+  </script>
+  <script type="text/markdown">
+    you can use unicode characters in the text.
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['right', 'Star 🥁', 'Lennon ☮', 'McCartney 🎹', 'George 🎸'], config: {padding: 8, opacity:.1}})
+  </script>
+  <script type="text/markdown">
+    `top, middle, bottom` - will pack horizontally.
+
+    text can be rotated by prefixing it with `(rot<angle>)`, where `<angle>` is the angle in degrees.
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['top', 'Star', '(rot-90)Lennon', 'McCartney', '(rot-90)George'], config: {padding: 8, opacity: .1}})
+  </script>
+  <script type="text/markdown">
+    Outer box will be created automatically to fit all the inner boxes or text.
+  </script>
+  <script type="module">
+    const angle = view(Inputs.range([-360, 360], {value: 30, label: "Angle", step: 1}))
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['middle',
+      ['top', 'Star'],
+      ['top', `(rot${angle})Paul McCartney 🎹`],
+      ['top', 'Lennon'],
+      ['top', 'Harrison']
+    ], config: {padding: 8, opacity: .1}})
+  </script>
+  <script type="text/markdown">
+    You can use **box** element to create a box with custom width and height.
+    All standard SVG elements are supported: **rect**, **circle**, **line**, **path**, etc..
+
+    Two additional attributes need to be specified: **w** and **h** - width and height of desired space.
+
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['middle',
+      ['box', {w: 60, h: 60}], ['box', {w: 20, h: 20}],
+      ['center',
+        ['box', {w: 20, h: 20}],
+        'Hello',
+        ['circle', {
+          w: 32, h: 32, // additional attributes
+          r: 16, cx: 16, cy: 16, fill: '#0a0'
+        }],
+        ['top', {fill: '#000', multiple: [3, 10, -10]}, 'Alice Copper'],
+        ...Array.from({length: 3}, () => ['rect', {
+          w: 40, h: 20, // additional attributes
+          width: 40, height: 20,
+          fill: '#fff',
+          stroke: '#000',
+          'stroke-width': 3
+        }])
+      ],
+      ['right',
+        ['box', {w: 32, h: 32}], 'John', ['box', {w: 8, h: 64}], 'Lennon', ['box', {w: 64, h: 8}]
+      ]
+    ], config: {padding: 5, opacity: .1}})
+  </script>
+</notebook>

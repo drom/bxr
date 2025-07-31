@@ -22,8 +22,8 @@
     "test": "eslint lib test && nyc -r=lcov -r=text mocha test",
     "unpkg": "browserify --standalone bxr lib/index.js > build/bxr.js",
     "prepare": "npm run test && mkdir -p build && npm run unpkg",
-    "demo-build": "browserify src/demo.js > demo/app.js",
-    "demo-watch": "watchify src/demo.js -o demo/app.js -v"
+    "docs:preview": "notebooks preview --root notebooks",
+    "docs:build": "notebooks build --out ../docs --root notebooks -- notebooks/*.html"
   },
   "engines": {
     "node": ">=22"
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@drom/eslint-config": "^0.13.0",
+    "@observablehq/notebook-kit": "^1.0.1",
     "browserify": "^17.0.0",
     "chai": "^5.2.1",
     "eslint": "^8.57.1",
