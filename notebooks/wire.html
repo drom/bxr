@@ -1,0 +1,28 @@
+<!doctype html>
+<notebook theme="air">
+  <title>wire</title>
+  <script type="text/markdown">
+    # wire
+  </script>
+  <script type="module" pinned>
+    wd({bxr: ['left', {fill: '#ddd', padding: 8},
+      ['wire', {kind: '&', label: 'result', color: 'green'},
+        ['wire', {label: 'argA'}],
+        ['wire', {kind: '~'},
+          ['wire', {kind: '=1'},
+
+            ['wire', {kind: '^'},
+              ['wire', {label: 'argB'}],
+              ['wire', {label: 'argC'}]
+            ],
+            ['wire', {label: 'argD'}],
+            ['wire', {label: 'argE'}]
+          ]
+        ]
+      ]
+    ], config: {}})
+  </script>
+  <script>
+    import {wd} from 'bxr';
+  </script>
+</notebook>
