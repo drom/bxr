@@ -1,7 +1,7 @@
 {
   "name": "bxr",
-  "version": "0.3.0",
-  "description": "Box layout engine",
+  "version": "0.4.0",
+  "description": "Box layout engine with back-propagation",
   "author": "Aliaksei Chapyzhenka",
   "license": "MIT",
   "homepage": "https://github.com/drom/bxr#readme",
@@ -13,6 +13,13 @@
     "url": "https://github.com/drom/bxr/issues"
   },
   "main": "lib",
+  "exports": {
+    ".": {
+      "browser": "./build/bxr.js",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    }
+  },
   "files": [
     "build/bxr.js",
     "lib"

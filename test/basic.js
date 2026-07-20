@@ -3,145 +3,172 @@
 const chai = require('chai');
 
 const lib = require('../lib/index.js');
-
-const openSans = require('../lib/open-sans.js');
+const {bxr} = lib;
+const {ttResolve} = require('../lib/tt-resolve.js');
+const {router} = require('../lib/router.js');
+const {expandMacros} = require('../lib/expand-macros.js');
+const {resetIds} = require('../lib/id-gen.js');
 
 const expect = chai.expect;
 
-describe('basic', () => {
-  it('bxr is function', () => {
+// pull the numeric width/height off the generated <svg>
+const svgSize = (svg) => {
+  const m = svg.match(/<svg[^>]*\bwidth="(\d+)"[^>]*\bheight="(\d+)"/);
+  return {w: parseInt(m[1], 10), h: parseInt(m[2], 10)};
+};
+
+describe('exports', () => {
+  it('bxr is a function', () => {
     expect(lib.bxr).to.be.a('function');
   });
-  it('can box', () => {
-    const texter = lib.texterer(openSans()(14));
-    const {top, bottom, left, right, center, box} = lib.bxr({padding: 4, texter});
-    const res = top(
-      bottom(box(20, 40), box(20, 20), 'Bob who?', box(20, 30)),
-      center(box(20, 20), 'Hello', box(40, 40), 'Alice Copper', box(20, 20), box(20, 20), box(20, 20)),
-      right(box(32, 32), 'John', box(8, 64), 'Lennon', box(64, 8)),
-      left('Paul', 'McCartney', box(40, 200))
-    );
-    // console.log(JSON.stringify(res, null, 2));
-    expect(res).to.be.deep.eq(['g', {w: 431, h: 264},
-      ['rect', {width: 431, height: 264}],
-      ['g', {transform: 'translate(4,4)'},
-        ['g', {w: 154, h: 48},
-          ['rect', {width: 154, height: 48}],
-          ['g', {transform: 'translate(4,4)'},
-            ['g', {w: 20, h: 40},
-              ['rect', {width: 20, height: 40}]
-            ]
-          ],
-          ['g', {transform: 'translate(28,24)'},
-            ['g', {w: 20, h: 20},
-              ['rect', {width: 20, height: 20}]
-            ]
-          ],
-          ['g', {transform: 'translate(52,24)'},
-            ['g', {w: 74, h: 20},
-              ['text', {x: 37, y: 10}, 'Bob who?']
-            ]
-          ],
-          ['g', {transform: 'translate(130,14)'},
-            ['g', {w: 20, h: 30},
-              ['rect', {width: 20, height: 30}]
-            ]
-          ]
-        ]
-      ],
-      ['g', {transform: 'translate(162,4)'},
-        ['g', {w: 102, h: 192},
-          ['rect', {width: 102, height: 192}],
-          ['g', {transform: 'translate(41,4)'},
-            ['g', {w: 20, h: 20},
-              ['rect', {width: 20, height: 20}]
-            ]
-          ],
-          ['g', {transform: 'translate(32.5,28)'},
-            ['g', {w: 37, h: 20},
-              ['text', {x: 18, y: 10}, 'Hello']
-            ]
-          ],
-          ['g', {transform: 'translate(31,52)'},
-            ['g', {w: 40, h: 40},
-              ['rect', {width: 40, height: 40}]
-            ]
-          ],
-          ['g', {transform: 'translate(4,96)'},
-            ['g', {w: 94, h: 20},
-              ['text', {x: 47, y: 10}, 'Alice Copper']
-            ]
-          ],
-          ['g', {transform: 'translate(41,120)'},
-            ['g', {w: 20, h: 20},
-              ['rect', {width: 20, height: 20}]
-            ]
-          ],
-          ['g', {transform: 'translate(41,144)'},
-            ['g', {w: 20, h: 20},
-              ['rect', {width: 20, height: 20}]
-            ]
-          ],
-          ['g', {transform: 'translate(41,168)'},
-            ['g', {w: 20, h: 20},
-              ['rect', {width: 20, height: 20}
-              ]
-            ]
-          ]
-        ]
-      ],
-      ['g', {transform: 'translate(268,4)'},
-        ['g', {w: 72, h: 168},
-          ['rect', {width: 72, height: 168}],
-          ['g', {transform: 'translate(36,4)'},
-            ['g', {w: 32, h: 32},
-              ['rect', {width: 32, height: 32}]
-            ]
-          ],
-          ['g', {transform: 'translate(35,40)'},
-            ['g', {w: 33, h: 20},
-              ['text', {x: 16, y: 10}, 'John']
-            ]
-          ],
-          ['g', {transform: 'translate(60,64)'},
-            ['g', {w: 8, h: 64},
-              ['rect', {width: 8, height: 64}]
-            ]
-          ],
-          ['g', {transform: 'translate(16,132)'},
-            ['g', {w: 52, h: 20},
-              ['text', {x: 26, y: 10}, 'Lennon']
-            ]
-          ],
-          ['g', {transform: 'translate(4,156)'},
-            ['g', {w: 64, h: 8},
-              ['rect', {width: 64, height: 8}]
-            ]
-          ]
-        ]
-      ],
-      ['g', {transform: 'translate(344,4)'},
-        ['g', {w: 83, h: 256},
-          ['rect', {width: 83, height: 256}],
-          ['g', {transform: 'translate(4,4)'},
-            ['g', {w: 31, h: 20},
-              ['text', {x: 15, y: 10}, 'Paul']
-            ]
-          ],
-          ['g', {transform: 'translate(4,28)'},
-            ['g', {w: 75, h: 20},
-              ['text', {x: 37, y: 10}, 'McCartney']
-            ]
-          ],
-          ['g', {transform: 'translate(4,52)'},
-            ['g', {w: 40, h: 200},
-              ['rect', {width: 40, height: 200}]
-            ]
-          ]
-        ]
+  it('wd is a function', () => {
+    expect(lib.wd).to.be.a('function');
+  });
+  it('texterer / openSans / obj2css exported', () => {
+    expect(lib.texterer).to.be.a('function');
+    expect(lib.openSans).to.be.a('function');
+    expect(lib.obj2css).to.be.a('function');
+  });
+});
+
+describe('bxr()', () => {
+  it('returns an svg string', () => {
+    const svg = bxr({bxr: ['box', {w: 20, h: 20}], config: {}});
+    expect(svg).to.be.a('string');
+    expect(svg).to.match(/^<svg[\s\S]*<\/svg>$/);
+  });
+
+  it('accepts a bare array (shorthand)', () => {
+    const a = bxr(['box', {w: 20, h: 20}]);
+    const b = bxr({bxr: ['box', {w: 20, h: 20}], config: {}});
+    expect(a).to.equal(b);
+  });
+
+  it('is deterministic across runs (macros included)', () => {
+    const make = () => ({bxr: ['left',
+      ['wire', {kind: '&', label: 'r'},
+        ['wire', {label: 'a'}],
+        ['wire', {label: 'b'}]
       ]
-    ]
-    );
+    ], config: {}});
+    expect(bxr(make())).to.equal(bxr(make()));
+  });
+
+  it('sizes the outer box to fit a single box plus padding', () => {
+    const {w, h} = svgSize(bxr({bxr: ['box', {w: 20, h: 20}], config: {padding: 4}}));
+    // box element itself carries no padding; outer svg = box + 1 (half-pixel *2)
+    expect(w).to.equal(21);
+    expect(h).to.equal(21);
+  });
+
+  it('left stacks children vertically', () => {
+    const one = svgSize(bxr({bxr: ['left', ['box', {w: 20, h: 20}]], config: {padding: 4}}));
+    const two = svgSize(bxr({bxr: ['left',
+      ['box', {w: 20, h: 20}], ['box', {w: 20, h: 20}]
+    ], config: {padding: 4}}));
+    // same width, taller with a second child
+    expect(two.w).to.equal(one.w);
+    expect(two.h).to.be.greaterThan(one.h);
+  });
+
+  it('top stacks children horizontally', () => {
+    const one = svgSize(bxr({bxr: ['top', ['box', {w: 20, h: 20}]], config: {padding: 4}}));
+    const two = svgSize(bxr({bxr: ['top',
+      ['box', {w: 20, h: 20}], ['box', {w: 20, h: 20}]
+    ], config: {padding: 4}}));
+    expect(two.h).to.equal(one.h);
+    expect(two.w).to.be.greaterThan(one.w);
+  });
+
+  it('renders text with a <text> element', () => {
+    const svg = bxr({bxr: ['left', 'Hello'], config: {padding: 4}});
+    expect(svg).to.contain('<text');
+    expect(svg).to.contain('Hello');
+  });
+
+  it('rotates text via (rot<angle>) prefix', () => {
+    const svg = bxr({bxr: ['left', '(rot-90)Hello'], config: {padding: 4}});
+    expect(svg).to.contain('rotate(-90)');
+    expect(svg).to.contain('Hello');
+  });
+
+  it('multiple draws a stack of rects', () => {
+    const single = bxr({bxr: ['box', {w: 20, h: 20}], config: {}});
+    const stacked = bxr({bxr: ['box', {w: 20, h: 20, multiple: [3, 10, 10]}], config: {}});
+    const count = (s) => (s.match(/<rect/g) || []).length;
+    expect(count(single)).to.equal(1);
+    expect(count(stacked)).to.equal(3);
+  });
+
+  it('applies config fill/opacity to boxes', () => {
+    const svg = bxr({bxr: ['box', {w: 20, h: 20}], config: {fill: '#000', opacity: 0.1}});
+    expect(svg).to.contain('fill="#000"');
+    expect(svg).to.contain('fill-opacity="0.1"');
+  });
+
+  it('supports custom macros via config.macros', () => {
+    const star = {
+      enter: () => ['box', {w: 42, h: 42, id: 'star'}]
+    };
+    const svg = bxr({bxr: ['star'], config: {macros: {star}}});
+    expect(svg).to.contain('width="42"');
+  });
+});
+
+describe('ttResolve', () => {
+  it('propagates translate offsets down into leaves', () => {
+    // a box containing a translated child; after resolve the child transform
+    // is absolute (parent offset folded in) and the box transform is removed
+    const tree = ['g', {w: 40, h: 40, kind: 'box', transform: 'translate(10,10)'},
+      ['g', {transform: 'translate(5,5)', w: 8, h: 8}]
+    ];
+    ttResolve([tree], 0, 0, 0);
+    expect(tree[1].transform).to.equal(undefined);
+    expect(tree[2][1].transform).to.equal('translate(15,15)');
+  });
+});
+
+describe('router', () => {
+  it('pairs input and output pins by id', () => {
+    const tree = ['g', {kind: 'box'},
+      ['box', {output: 'n1'}],
+      ['box', {input: 'n1'}]
+    ];
+    const routo = router(tree);
+    expect(routo).to.have.property('n1');
+    expect(routo.n1.outputs).to.have.length(1);
+    expect(routo.n1.inputs).to.have.length(1);
+  });
+});
+
+describe('expandMacros', () => {
+  it('expands the wire macro in place and links pins', () => {
+    resetIds();
+    const parent = [['wire', {label: 'top'},
+      ['wire', {label: 'a'}],
+      ['wire', {label: 'b'}]
+    ]];
+    expandMacros()(parent, 0);
+    // wire expands to a 'middle' container
+    expect(parent[0][0]).to.equal('middle');
+  });
+
+  it('links each pin input to a real output (no dangling pins)', () => {
+    resetIds();
+    const parent = [['wire', {kind: '&', label: 'r'},
+      ['wire', {label: 'a'}],
+      ['wire', {label: 'b'}]
+    ]];
+    expandMacros()(parent, 0);
+    const routo = router(parent[0]);
+    // no placeholder ids leak through
+    expect(JSON.stringify(parent)).to.not.contain('???');
+    // every input id must be produced by some output id
+    for (const [id, o] of Object.entries(routo)) {
+      if (o.inputs.length) {
+        expect(o.outputs, `input ${id} has no matching output`).to.have.length.above(0);
+      }
+    }
   });
 });
 
